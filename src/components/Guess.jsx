@@ -5,10 +5,11 @@ export default function Guess(props){
     const [guess, setGuess] = useState("")
     const [inputLetter, setInputLetter] = useState(['', '', '', '', ''])
     const [inputClass, setInputClass] = useState("letter")
+    
+    const [win, setWin] = useState(false)
 
     useEffect(() => {
         function renderStyles() {
-          if (guess !== "") {
             const updatedInputClass = inputLetter.map((letter, i) => {
               if (props.selectedWord[i] == letter.toUpperCase()) {
                 return "letter--correct--position";
@@ -19,7 +20,6 @@ export default function Guess(props){
               }
             });
             setInputClass(updatedInputClass);
-          }
         }
         renderStyles();
       }, [guess]);
@@ -44,7 +44,6 @@ export default function Guess(props){
 
     function handleKeyPress(event){
         const charCode = event.charCode;
-
         if(charCode >= 48 && charCode <= 57){
             event.preventDefault()
         }
@@ -72,7 +71,7 @@ export default function Guess(props){
                 maxLength={1} 
                 disabled={!isEditable ? true : false}
                 onChange={(event) => handleOnChange(i, event.target.value)}
-                onKeyPress={handleKeyPress}
+                onKeyPress={handleKeyPress} //deprecated, ver outra forma depois
                 ></input>
             )
         }
@@ -95,7 +94,8 @@ export default function Guess(props){
         <div>
             {renderRows()}
             <button className="btn--submit" onClick={handleOnClick}>Submeter</button>
-            {props.tryNumber != 0 && <h1>TENTATIVAS: {guess == props.selectedWord ? props.tryNumber : "Tenta outra vez"}</h1>}
+            {props.tryNumber != 0 && <h1>{guess == props.selectedWord ? "TENTATIVAS:" + props.tryNumber : "Tenta outra vez"}</h1>}
+            {props.tryNumber == 6 && <h1>RESPOSTA: {props.selectedWord} </h1>}
         </div>
     )
 }

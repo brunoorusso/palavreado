@@ -33,7 +33,7 @@ export default function Game(){
   return (
     <div>
     <div className='game--board'>
-        <h1>Olá, palavra selecionada: {selectedWord}</h1>
+        {/* {<h1>Olá, palavra selecionada: {selectedWord}</h1>} */}
             <Guess  maxTries={MAX_TRIES} 
                     tryNumber={tryNumber} 
                     updateTryNumber={updateTryNumber}
