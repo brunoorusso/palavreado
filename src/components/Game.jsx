@@ -37,7 +37,7 @@ export default function Game(){
             <Guess  maxTries={MAX_TRIES} 
                     tryNumber={tryNumber} 
                     updateTryNumber={updateTryNumber}
-                    selectedWord={selectedWord}
+                    selectedWord={selectedWord.toUpperCase()}
                     wordList={wordList}/>
         </div>
     </div>
