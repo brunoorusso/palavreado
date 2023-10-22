@@ -15,12 +15,14 @@ export default function Game(){
     * GET DATA E DÁ RANDOM PARA TER A PALAVRA DO JOGO
     */
     async function fetchData(){
-        const response = await fetch("https://gist.githubusercontent.com/un-versed/6373912fbf4649704b6823ea696cfcb1/raw/629137a0d0c7160b94c35013df8d570b31100174/termooo-wordsv2.json")
-        const data = await response.json()
-        setWordList(data)
+        const response = await fetch("https://raw.githubusercontent.com/fserb/pt-br/master/palavras") //lista de palavras em formato texto em vez de json
+        const data = await response.text() 
+        const words = data.split('\n') //dividir os dados por palavras, quando encontra um enter (\n)
+        const newData = words.filter(word => word.length === 5) //filtrar só palvras de tamanho 5
+        setWordList(newData)
 
-        const randomIndex = Math.floor(Math.random() * data.length);
-        setSelectedWord(data[randomIndex]);
+        const randomIndex = Math.floor(Math.random() * newData.length);
+        setSelectedWord(newData[randomIndex]);
     }
     fetchData()  
   }, [])

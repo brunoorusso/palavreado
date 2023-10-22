@@ -134,6 +134,7 @@ export default function Guess(props){
             {renderRows()}
             <button className="btn--submit" onClick={handleOnClick}>Submeter</button>
             {props.tryNumber == 6 && <h1>RESPOSTA: {props.selectedWord} </h1>}
+            {guess[props.tryNumber].win && <h1>VENCEDOR</h1>}
         </div>
     )
 }   
