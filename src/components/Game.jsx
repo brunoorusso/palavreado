@@ -15,14 +15,14 @@ export default function Game(){
     * GET DATA E DÁ RANDOM PARA TER A PALAVRA DO JOGO
     */
     async function fetchData(){
-        const response = await fetch("https://raw.githubusercontent.com/fserb/pt-br/master/palavras") //lista de palavras em formato texto em vez de json
+        const response = await fetch("https://raw.githubusercontent.com/fserb/pt-br/master/dicio") //lista de palavras em formato texto em vez de json
         const data = await response.text() 
         const words = data.split('\n') //dividir os dados por palavras, quando encontra um enter (\n)
         const newData = words.filter(word => word.length === 5) //filtrar só palvras de tamanho 5
         setWordList(newData)
 
         const randomIndex = Math.floor(Math.random() * newData.length);
-        setSelectedWord(newData[randomIndex]);
+        setSelectedWord(newData[randomIndex].toUpperCase());
     }
     fetchData()  
   }, [])
@@ -39,7 +39,7 @@ export default function Game(){
             <Guess  maxTries={MAX_TRIES} 
                     tryNumber={tryNumber} 
                     updateTryNumber={updateTryNumber}
-                    selectedWord={selectedWord.toUpperCase()}
+                    selectedWord={selectedWord.normalize("NFD").replace(/[\u0300-\u036f]/g, "")}
                     wordList={wordList}/>
         </div>
     </div>

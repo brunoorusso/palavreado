@@ -22,6 +22,7 @@ export default function Guess(props){
         }
       ]);
     const [inputLetter, setInputLetter] = useState(['', '', '', '', ''])
+    const [showModal, setShowModal] = useState(false)
   
     useEffect(() => {
         function renderStyles(){
@@ -70,7 +71,7 @@ export default function Guess(props){
                 ])
                 props.updateTryNumber()
             }else{
-                alert("Palavra não existe")
+                alert("alterar isto por modal")
             }
         }
     }
@@ -82,14 +83,16 @@ export default function Guess(props){
     }
 
     function handleKeyPress(event){
-        const charCode = event.charCode;
-        if(charCode >= 48 && charCode <= 57){
-            event.preventDefault()
-        }
+        const charCode = event.charCode
+        if ((charCode < 65 || (charCode > 90 && charCode < 97) || charCode > 122)) {
+            event.preventDefault();
+          }
     }
 
     function validWord(word){
-        return props.wordList.includes(word.toLowerCase()) ? true : false
+        const allWords = props.wordList
+        const newWords = allWords.map((word) => word.normalize("NFD").replace(/\p{Diacritic}/gu, ""))
+        return newWords.includes(word.toLowerCase()) ? true : false
     }
 
     function renderLetters(isEditable, activeRow, lastWon){
@@ -105,7 +108,8 @@ export default function Guess(props){
                 maxLength={1} 
                 disabled={!lastWon ? !isEditable : lastWon}
                 onChange={(event) => handleOnChange(i, event.target.value)}
-                onKeyPress={handleKeyPress}/>
+                onKeyPress={handleKeyPress}
+                />
             )
         }
         return letters;  
@@ -114,6 +118,11 @@ export default function Guess(props){
     function checkWin(guess){
         return guess.win ? true : false
     }
+
+    function updateShowModal(){
+        setShowModal(prevShowModal => !prevShowModal)
+    }
+
 
     function renderRows(){
         const rows = [];
